@@ -1,10 +1,20 @@
 using PlayFab;
 using PlayFab.ClientModels;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayfabLogin : MonoBehaviour
 {
-    private void Start()
+    private TMP_Text _tmpText;
+    
+    private void Awake()
+    {
+        _tmpText = GetComponentInChildren<TMP_Text>();
+        _tmpText.color = Color.black;
+    }
+
+    public void LogIn()
     {
         if (string.IsNullOrEmpty(PlayFabSettings.staticSettings.TitleId))
             PlayFabSettings.staticSettings.TitleId = "2885B";
@@ -16,13 +26,13 @@ public class PlayfabLogin : MonoBehaviour
         
         void OnLoginSuccess(LoginResult result)
         {
-            Debug.Log("Congratulations, you made successful API call!");
+            _tmpText.color = Color.green;
         }
         void OnLoginFailure(PlayFabError error)
         {
             var errorMessage = error.GenerateErrorReport();
+            _tmpText.color = Color.red;
             Debug.LogError($"Something went wrong: {errorMessage}");
         }
-
     }
 }
