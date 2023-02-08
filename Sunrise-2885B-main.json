@@ -1,0 +1,240 @@
+{
+  "CatalogVersion": "main",
+  "Catalog": [
+    {
+      "ItemId": "first_aid_kit_id",
+      "ItemClass": "health",
+      "CatalogVersion": "main",
+      "DisplayName": "First aid kit 10",
+      "Description": "Description First aid kit",
+      "VirtualCurrencyPrices": {
+        "RM": 10
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": 10,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": true,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": true,
+      "InitialLimitedEditionCount": 3,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "health_id",
+      "ItemClass": "health",
+      "CatalogVersion": "main",
+      "DisplayName": "Bundle health",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "RM": 15,
+        "SC": 3
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": {
+        "BundledItems": [
+          "first_aid_kit_id",
+          "first_aid_kit_id",
+          "first_aid_kit_id",
+          "first_aid_kit_id",
+          "first_aid_kit_id"
+        ],
+        "BundledResultTables": [],
+        "BundledVirtualCurrencies": null
+      },
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "container_health_id",
+      "ItemClass": null,
+      "CatalogVersion": "main",
+      "DisplayName": "Container Health",
+      "Description": null,
+      "VirtualCurrencyPrices": {},
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": {
+        "KeyItemId": "first_key_id",
+        "ItemContents": [
+          "first_aid_kit_id",
+          "first_aid_kit_id",
+          "first_aid_kit_id"
+        ],
+        "ResultTableContents": [],
+        "VirtualCurrencyContents": null
+      },
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "first_key_id",
+      "ItemClass": "keys",
+      "CatalogVersion": "main",
+      "DisplayName": "First key",
+      "Description": null,
+      "VirtualCurrencyPrices": {},
+      "RealCurrencyPrices": null,
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "leather_bracelet_id",
+      "ItemClass": "bracelets",
+      "CatalogVersion": "main",
+      "DisplayName": "Leather bracelet",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "RM": 5
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": true,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "golden_salmon_id",
+      "ItemClass": "salmons",
+      "CatalogVersion": "main",
+      "DisplayName": "Golden salmon",
+      "Description": null,
+      "VirtualCurrencyPrices": {
+        "RM": 25,
+        "SC": 10
+      },
+      "RealCurrencyPrices": {},
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": null,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": null,
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": true,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    },
+    {
+      "ItemId": "bundle_of_accessories_id",
+      "ItemClass": "accessories",
+      "CatalogVersion": "main",
+      "DisplayName": "Bundle of accessories",
+      "Description": null,
+      "VirtualCurrencyPrices": {},
+      "RealCurrencyPrices": null,
+      "Tags": [],
+      "CustomData": null,
+      "Consumable": {
+        "UsageCount": 1,
+        "UsagePeriod": null,
+        "UsagePeriodGroup": null
+      },
+      "Container": null,
+      "Bundle": {
+        "BundledItems": [
+          "first_key_id",
+          "leather_bracelet_id",
+          "leather_bracelet_id",
+          "leather_bracelet_id",
+          "leather_bracelet_id",
+          "leather_bracelet_id",
+          "golden_salmon_id",
+          "golden_salmon_id",
+          "golden_salmon_id"
+        ],
+        "BundledResultTables": [],
+        "BundledVirtualCurrencies": null
+      },
+      "CanBecomeCharacter": false,
+      "IsStackable": false,
+      "IsTradable": false,
+      "ItemImageUrl": null,
+      "IsLimitedEdition": false,
+      "InitialLimitedEditionCount": 0,
+      "ActivatedMembership": null
+    }
+  ],
+  "DropTables": [
+    {
+      "TableId": "table_accessories_id",
+      "Nodes": [
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "leather_bracelet_id",
+          "Weight": 10
+        },
+        {
+          "ResultItemType": "ItemId",
+          "ResultItem": "golden_salmon_id",
+          "Weight": 4
+        }
+      ]
+    }
+  ]
+}

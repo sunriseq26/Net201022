@@ -17,7 +17,7 @@ MonoBehaviour:
   SelectedStudio: EXPOsition
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
-  LocalCloudScriptPath: 
+  LocalCloudScriptPath: D:/Edu/REPO/Net201022/Assets/PlayFabEditorExtensions/Editor/Resources/.CloudScript.js
   PanelIsShown: 0
-  curMainMenuIdx: 1
+  curMainMenuIdx: 5
   curSubMenuIdx: 0
