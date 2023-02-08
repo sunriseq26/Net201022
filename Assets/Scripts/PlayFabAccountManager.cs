@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayFabAccountManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _titleLabel;
+    [SerializeField] private Transform _content;
+    [SerializeField] private GameObject _prefabItem;
     
     private readonly Dictionary<string, CatalogItem> _catalog = new Dictionary<string, CatalogItem>();
 
@@ -42,6 +44,8 @@ public class PlayFabAccountManager : MonoBehaviour
         {
             _catalog.Add(item.ItemId, item);
             Debug.Log($"Catalog item {item.ItemId} was added successfully!");
+            var itemTMP_Text = Instantiate(_prefabItem, _content);
+            itemTMP_Text.GetComponent<TMP_Text>().text = $"Name Item: {item.DisplayName}";
         }
     }
 }
