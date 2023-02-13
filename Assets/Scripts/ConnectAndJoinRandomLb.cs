@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -24,6 +25,7 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
     private const string GOLD_PROP_KEY = "C1";
 
     private TypedLobby _sqlLobby = new TypedLobby("CustomSqlLobby", LobbyType.SqlLobby);
+    private TypedLobby _defaultLobby = new TypedLobby("DefaultLobby", LobbyType.Default);
 
 
     private void Start()
@@ -57,7 +59,8 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
     public void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        
+        //PhotonNetwork.JoinLobby();
+
         var roomOptions = new RoomOptions
         {
             MaxPlayers = 12,
@@ -65,7 +68,7 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
             CustomRoomPropertiesForLobby = new[] { MAP_PROP_KEY, GOLD_PROP_KEY },
             CustomRoomProperties = new Hashtable{{GOLD_PROP_KEY, 400}, {MAP_PROP_KEY, "Map3"}}
         };
-        
+
         var enterRoomParams = new EnterRoomParams
         {
             RoomName = "NewRoom", 
@@ -73,7 +76,6 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
             ExpectedUsers = new []{"r23r23r"},
             Lobby = _sqlLobby
         };
-        
         _lbc.OpCreateRoom(enterRoomParams);
     }
 
@@ -96,6 +98,11 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnFriendListUpdate(List<FriendInfo> friendList)
     {
+    }
+
+    public void OnConnectedToServer()
+    {
+        _lbc.OpJoinLobby(_sqlLobby);
     }
 
     public void OnCreatedRoom()
@@ -129,6 +136,7 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnJoinedLobby()
     {
+        Debug.Log("OnJoinedLobby");
         var sqlLobbyFilter = $"{MAP_PROP_KEY} = Map3 AND {GOLD_PROP_KEY} BETWEEN 300 AND 500";
         
         var opJoinRandomRoomParams = new OpJoinRandomRoomParams
@@ -145,10 +153,11 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        Debug.LogWarning($"OnRoomListUpdate successfully!");
         foreach (var item in roomList)
         {
             _catalog.Add(item.Name, item);
-            Debug.Log($"Catalog item {item.Name} was added successfully!");
+            Debug.LogWarning($"Catalog item {item.Name} was added successfully!");
             var itemTMP_Text = Instantiate(_prefabItem, _content);
             itemTMP_Text.GetComponent<TMP_Text>().text = $"Name Item: {item.Name}";
         }
@@ -156,5 +165,6 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
     {
+        Debug.LogWarning(lobbyStatistics.Count);
     }
 }
