@@ -10,6 +10,11 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
     [SerializeField] private ServerSettings _serverSettings;
     [SerializeField] private TMP_Text _stateUiText;
     
+    [SerializeField] private Transform _content;
+    [SerializeField] private GameObject _prefabItem;
+    
+    private readonly Dictionary<string, RoomInfo> _catalog = new Dictionary<string, RoomInfo>();
+    
     private LoadBalancingClient _lbc;
 
     private const string GAME_MODE_KEY = "gm";
@@ -140,6 +145,13 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        foreach (var item in roomList)
+        {
+            _catalog.Add(item.Name, item);
+            Debug.Log($"Catalog item {item.Name} was added successfully!");
+            var itemTMP_Text = Instantiate(_prefabItem, _content);
+            itemTMP_Text.GetComponent<TMP_Text>().text = $"Name Item: {item.Name}";
+        }
     }
 
     public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
