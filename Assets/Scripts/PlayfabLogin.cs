@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -8,7 +9,7 @@ public class PlayfabLogin : MonoBehaviour
 {
     private TMP_Text _tmpText;
     private const string AuthGuidKey = "auth_guid_key";
-    
+
     private void Awake()
     {
         _tmpText = GetComponentInChildren<TMP_Text>();
@@ -35,17 +36,46 @@ public class PlayfabLogin : MonoBehaviour
                 PlayerPrefs.SetString(AuthGuidKey, id);
                 OnLoginSuccess(result);
             }, OnLoginFailure);
-        
-        void OnLoginSuccess(LoginResult result)
+    }
+    
+    private void OnLoginSuccess(LoginResult result)
+    {
+        Debug.Log("Complete Login!!!");
+        _tmpText.color = Color.green;
+        SetUserData(result.PlayFabId);
+    }
+
+    private void SetUserData(string playFabId)
+    {
+        PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest
         {
-            Debug.Log("Complete Login!!!");
-            _tmpText.color = Color.green;
-        }
-        void OnLoginFailure(PlayFabError error)
+            Data = new Dictionary<string, string>
+            {
+                { "time_recieve_daily_reward", DateTime.UtcNow.ToString() }
+            }
+        }, result =>
         {
-            var errorMessage = error.GenerateErrorReport();
-            _tmpText.color = Color.red;
-            Debug.LogError($"Something went wrong: {errorMessage}");
-        }
+            Debug.Log("SetUserData");
+            GetUserData(playFabId, "time_recieve_daily_reward");
+        }, OnLoginFailure);
+    }
+
+    private void GetUserData(string playFabId, string keyData)
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest
+        {
+            PlayFabId =  playFabId
+        }, result =>
+        {
+            if (result.Data.ContainsKey(keyData))
+                Debug.Log($"{keyData}: {result.Data[keyData].Value}");
+        }, OnLoginFailure);
+    }
+
+    private void OnLoginFailure(PlayFabError error)
+    {
+        var errorMessage = error.GenerateErrorReport();
+        _tmpText.color = Color.red;
+        Debug.LogError($"Something went wrong: {errorMessage}");
     }
 }
