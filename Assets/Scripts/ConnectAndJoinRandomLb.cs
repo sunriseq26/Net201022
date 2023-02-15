@@ -147,8 +147,11 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
         {
             SqlLobbyFilter = sqlLobbyFilter
         };
-        
-        _lbc.OpJoinRandomRoom(opJoinRandomRoomParams);
+
+        if (_lbc.OpGetGameList(_sqlLobby, sqlLobbyFilter))
+        {
+            _lbc.OpJoinRandomRoom(opJoinRandomRoomParams);
+        }
     }
 
     public void OnLeftLobby()
