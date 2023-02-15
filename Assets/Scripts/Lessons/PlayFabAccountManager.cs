@@ -11,6 +11,7 @@ public class PlayFabAccountManager : MonoBehaviour
     [SerializeField] private GameObject _prefabItem;
     
     private readonly Dictionary<string, CatalogItem> _catalog = new Dictionary<string, CatalogItem>();
+    private GetAccountInfoResult _accountInfo;
 
 
     private void Start()
@@ -21,9 +22,8 @@ public class PlayFabAccountManager : MonoBehaviour
 
     private void OnGetAccount(GetAccountInfoResult result)
     {
-        _titleLabel.text = $"Playfab id: {result.AccountInfo.PlayFabId}" + "\n"
-                           + $"Username: {result.AccountInfo.Username}" + "\n"
-                           + $"Email: {result.AccountInfo.PrivateInfo.Email}";
+        _titleLabel.text = $"Username: {result.AccountInfo.Username}";
+        _accountInfo = result;
     }
 
     private void OnError(PlayFabError error)

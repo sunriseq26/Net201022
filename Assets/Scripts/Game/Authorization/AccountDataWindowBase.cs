@@ -1,7 +1,5 @@
 using Photon.Pun;
-using PlayFab;
-using PlayFab.ClientModels;
-using PlayFab.EconomyModels;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +8,7 @@ using Image = UnityEngine.UI.Image;
 
 public class AccountDataWindowBase : MonoBehaviourPunCallbacks
 {
+    [SerializeField] private ServerSettings _serverSettings;
     [SerializeField] private InputField _usernameField;
     [SerializeField] private InputField _passwordField;
     [SerializeField] private Image _bgConnection;
@@ -18,6 +17,9 @@ public class AccountDataWindowBase : MonoBehaviourPunCallbacks
     protected string _username;
     protected string _password;
     protected string _connecting = "Connecting...";
+    protected string gameVersion = "1";
+    
+    private TypedLobby _sqlLobby = new TypedLobby("CustomSqlLobby", LobbyType.SqlLobby);
 
     private void Start()
     {
@@ -42,7 +44,6 @@ public class AccountDataWindowBase : MonoBehaviourPunCallbacks
 
     protected void EnterInGameScene(string playFabId)
     {
-        SceneManager.LoadScene(1);
         //SetUserData(playFabId);
         //MakePurchase();
         //GetInventory();
@@ -53,5 +54,44 @@ public class AccountDataWindowBase : MonoBehaviourPunCallbacks
         _bgConnection.enabled = enable;
         _textProcess.text = message;
         _textProcess.color = color;
+    }
+    
+    public void Connect()
+    {
+        _textProcess.text = "";
+        
+        if (PhotonNetwork.IsConnected)
+        {
+            LogFeedback("Joining Room...");
+            PhotonNetwork.JoinLobby();
+        }else{
+            LogFeedback("Connecting...");
+            PhotonNetwork.ConnectUsingSettings(_serverSettings.AppSettings);
+            PhotonNetwork.GameVersion = this.gameVersion;
+        }
+    }
+    
+    void LogFeedback(string message)
+    {
+        if (_textProcess == null) {
+            return;
+        }
+        _textProcess.text += System.Environment.NewLine+message;
+    }
+    
+    public override void OnConnectedToMaster()
+    {
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.JoinLobby(_sqlLobby);
+            Debug.LogWarning("OnConnectedToMaster: Next -> try to Join Lobby");
+        }
+    }
+
+    public override void OnJoinedLobby()
+    {
+        LogFeedback("OnJoinedLobby: Next -> try to LoadScene(1)");
+        Debug.LogWarning("OnJoinedLobby");
+        SceneManager.LoadScene(1);
     }
 }

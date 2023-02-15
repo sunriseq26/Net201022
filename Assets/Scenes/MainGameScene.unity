@@ -968,6 +968,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4459881631154659534, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
+      propertyPath: m_Name
+      value: BackFromCreateAccount
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459881631337104679, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
+      propertyPath: m_Name
+      value: BackFromSignIn
+      objectReference: {fileID: 0}
     - target: {fileID: 5943896208405499872, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1056,6 +1064,10 @@ PrefabInstance:
       propertyPath: _bgConnection
       value: 
       objectReference: {fileID: 944262469}
+    - target: {fileID: 7131083847950734067, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
+      propertyPath: _serverSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: a8a7d2bba45362841a24d215b5255885, type: 2}
     - target: {fileID: 7133183360354109553, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
       propertyPath: _bgProcess
       value: 
@@ -1072,6 +1084,10 @@ PrefabInstance:
       propertyPath: "_tex\u0435Process"
       value: 
       objectReference: {fileID: 413687419}
+    - target: {fileID: 7133183360354109553, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
+      propertyPath: _serverSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: a8a7d2bba45362841a24d215b5255885, type: 2}
     - target: {fileID: 7263193345250137462, guid: 3fc883ed063efea4cb6447d34f0b33b0, type: 3}
       propertyPath: m_Enabled
       value: 1

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
-using TMPro;
 
 public class SignInWindow : AccountDataWindowBase
 {
@@ -26,7 +25,8 @@ public class SignInWindow : AccountDataWindowBase
         {
             Debug.Log($"Success: {_username}");
             ConnectionInfo(false, string.Empty, Color.white);
-            EnterInGameScene(result.PlayFabId);
+            Connect();
+            //EnterInGameScene(result.PlayFabId);
         }, error =>
         {
             Debug.LogError($"Fail: {error.ErrorMessage}");
