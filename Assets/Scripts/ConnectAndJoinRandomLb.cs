@@ -24,9 +24,13 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
     private const string MAP_PROP_KEY = "C0";
     private const string GOLD_PROP_KEY = "C1";
 
-    private TypedLobby _sqlLobby = new TypedLobby("CustomSqlLobby", LobbyType.SqlLobby);
+    private TypedLobby _sqlLobby;
     private TypedLobby _defaultLobby = new TypedLobby("DefaultLobby", LobbyType.Default);
 
+    private void Awake()
+    {
+        _sqlLobby = new TypedLobby("CustomSqlLobby", LobbyType.SqlLobby);
+    }
 
     private void Start()
     {
@@ -59,24 +63,24 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
     public void OnConnectedToMaster()
     {
         Debug.Log("OnConnectedToMaster");
-        //PhotonNetwork.JoinLobby();
+        _lbc.OpJoinLobby(_sqlLobby);
 
-        var roomOptions = new RoomOptions
-        {
-            MaxPlayers = 12,
-            PublishUserId = true,
-            CustomRoomPropertiesForLobby = new[] { MAP_PROP_KEY, GOLD_PROP_KEY },
-            CustomRoomProperties = new Hashtable{{GOLD_PROP_KEY, 400}, {MAP_PROP_KEY, "Map3"}}
-        };
-
-        var enterRoomParams = new EnterRoomParams
-        {
-            RoomName = "NewRoom", 
-            RoomOptions = roomOptions,
-            ExpectedUsers = new []{"r23r23r"},
-            Lobby = _sqlLobby
-        };
-        _lbc.OpCreateRoom(enterRoomParams);
+        // var roomOptions = new RoomOptions
+        // {
+        //     MaxPlayers = 12,
+        //     PublishUserId = true,
+        //     CustomRoomPropertiesForLobby = new[] { MAP_PROP_KEY, GOLD_PROP_KEY },
+        //     CustomRoomProperties = new Hashtable{{GOLD_PROP_KEY, 400}, {MAP_PROP_KEY, "Map3"}}
+        // };
+        //
+        // var enterRoomParams = new EnterRoomParams
+        // {
+        //     RoomName = "NewRoom", 
+        //     RoomOptions = roomOptions,
+        //     ExpectedUsers = new []{"r23r23r"},
+        //     Lobby = _sqlLobby
+        // };
+        // _lbc.OpCreateRoom(enterRoomParams);
     }
 
     public void OnDisconnected(DisconnectCause cause)
@@ -102,7 +106,7 @@ public class ConnectAndJoinRandomLb : MonoBehaviour, IConnectionCallbacks, IMatc
 
     public void OnConnectedToServer()
     {
-        _lbc.OpJoinLobby(_sqlLobby);
+        //_lbc.OpJoinLobby(_sqlLobby);
     }
 
     public void OnCreatedRoom()
