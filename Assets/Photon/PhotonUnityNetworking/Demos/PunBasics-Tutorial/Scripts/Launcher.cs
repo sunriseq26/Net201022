@@ -8,10 +8,14 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Photon.Realtime;
+using PlayFab;
+using PlayFab.ClientModels;
 
 namespace Photon.Pun.Demo.PunBasics
 {
@@ -56,6 +60,12 @@ namespace Photon.Pun.Demo.PunBasics
 		/// </summary>
 		string gameVersion = "1";
 
+		private float _hp = 2f;
+		private float _maximumHealthValue = 2f;
+
+		private string _healthName = "HP";
+		private string _maximumHealthName = "maximum_HP";
+
 		#endregion
 
 		#region MonoBehaviour CallBacks
@@ -73,7 +83,6 @@ namespace Photon.Pun.Demo.PunBasics
 			// #Critical
 			// this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
 			PhotonNetwork.AutomaticallySyncScene = true;
-
 		}
 
 		#endregion
@@ -108,6 +117,8 @@ namespace Photon.Pun.Demo.PunBasics
 			{
 				LogFeedback("Joining Room...");
 				// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnJoinRandomFailed() and we'll create one.
+				SetUserData(_maximumHealthName, _maximumHealthValue.ToString());
+				SetUserData(_healthName, _hp.ToString());
 				PhotonNetwork.JoinRandomRoom();
 			}else{
 
@@ -117,6 +128,27 @@ namespace Photon.Pun.Demo.PunBasics
 				PhotonNetwork.ConnectUsingSettings();
                 PhotonNetwork.GameVersion = this.gameVersion;
 			}
+		}
+		
+		private void SetUserData(string data, string value)
+		{
+			PlayFabClientAPI.UpdateUserData(new UpdateUserDataRequest
+			{
+				Data = new Dictionary<string, string>
+				{
+					{ data, _hp.ToString() }
+				}
+			}, result =>
+			{
+				Debug.Log("SetUserData");
+				//GetUserData(playFabId, "time_recieve_daily_reward");
+			}, OnError);
+		}
+
+		private void OnError(PlayFabError error)
+		{
+			var errorMessage = error.GenerateErrorReport();
+			Debug.LogError($"Something went wrong: {errorMessage}");
 		}
 
 		/// <summary>

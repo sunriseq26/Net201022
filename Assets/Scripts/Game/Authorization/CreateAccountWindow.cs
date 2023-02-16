@@ -30,7 +30,8 @@ public class CreateAccountWindow : AccountDataWindowBase
         {
             Debug.Log($"Success: {_username}");
             ConnectionInfo(false, string.Empty, Color.white);
-            EnterInGameScene();
+            Connect();
+            //EnterInGameScene(result.PlayFabId);
         }, error =>
         {
             Debug.LogError($"Fail: {error.ErrorMessage}");
