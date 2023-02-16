@@ -12,7 +12,6 @@ public class AccountManagerBase : MonoBehaviourPunCallbacks
     protected virtual void OnGetAccount(GetAccountInfoResult result)
     {
         _accountResult = result;
-        PhotonNetwork.NickName = _accountResult.AccountInfo.Username;
     }
 
     protected void OnError(PlayFabError error)

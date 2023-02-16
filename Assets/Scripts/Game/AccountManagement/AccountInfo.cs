@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Photon.Pun;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -22,6 +23,7 @@ public class AccountInfo : AccountManagerBase
     protected override void OnGetAccount(GetAccountInfoResult result)
     {
         base.OnGetAccount(result);
+        PhotonNetwork.NickName = _accountResult.AccountInfo.Username;
         _titleLabel.text = $"Username: {result.AccountInfo.Username}";
     }
 }
