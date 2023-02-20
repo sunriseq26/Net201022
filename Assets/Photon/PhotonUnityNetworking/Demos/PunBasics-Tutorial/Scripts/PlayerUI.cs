@@ -8,6 +8,7 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,8 @@ namespace Photon.Pun.Demo.PunBasics
 	    [Tooltip("UI Slider to display Player's Health")]
 	    [SerializeField]
 	    private Slider playerHealthSlider;
+
+	    [SerializeField] private Text _idText;
 
         PlayerManager target;
 
@@ -66,6 +69,11 @@ namespace Photon.Pun.Demo.PunBasics
 		/// MonoBehaviour method called on GameObject by Unity on every frame.
 		/// update the health slider to reflect the Player's health
 		/// </summary>
+		private void Start()
+		{
+			playerHealthSlider.maxValue = target.MaximumHealth;
+		}
+
 		void Update()
 		{
 			// Destroy itself if the target is null, It's a fail safe when Photon is destroying Instances of a Player over the network
@@ -76,9 +84,12 @@ namespace Photon.Pun.Demo.PunBasics
 
 
 			// Reflect the Player Health
-			if (playerHealthSlider != null) {
+			if (playerHealthSlider != null)
+			{
 				playerHealthSlider.value = target.Health;
 			}
+
+			_idText.text = $"{target.Health.ToString()}/{target.MaximumHealth.ToString()}";
 		}
 
 		/// <summary>

@@ -8,6 +8,10 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
+using JetBrains.Annotations;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -24,7 +28,7 @@ namespace Photon.Pun.Demo.PunBasics
         #region Public Fields
 
         [Tooltip("The current Health of our player")]
-        public float Health = 1f;
+        public float Health = 2f;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
         public static GameObject LocalPlayerInstance;
@@ -41,8 +45,33 @@ namespace Photon.Pun.Demo.PunBasics
         [SerializeField]
         private GameObject beams;
 
+        private float _id;
+
+        private float _hp = 2f;
+
+        private float _maximumHealthValue = 1f;
+
+        private string _healthName = "HP";
+
+        private string _maximumHealthName = "maximum_HP";
+
+        private GetAccountInfoResult _accountResult;
+
         //True, when the user is firing
+
         bool IsFiring;
+
+        public float MaximumHealth
+        {
+            get => _maximumHealthValue;
+            set => _maximumHealthValue = value;
+        }
+
+        public float ID
+        {
+            get => photonView.ViewID;
+            set => _id = value;
+        }
 
         #endregion
 
@@ -103,7 +132,9 @@ namespace Photon.Pun.Demo.PunBasics
             {
                 Debug.LogWarning("<Color=Red><b>Missing</b></Color> PlayerUiPrefab reference on player Prefab.", this);
             }
-
+            
+            PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), OnGetAccount, OnError);
+            
             #if UNITY_5_4_OR_NEWER
             // Unity 5.4 has a new scene management. register a method to call CalledOnLevelWasLoaded.
 			UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
@@ -233,6 +264,60 @@ namespace Photon.Pun.Demo.PunBasics
 
         #region Private Methods
 
+        private void OnGetAccount(GetAccountInfoResult result)
+        {
+            _accountResult = result;
+            
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId =  _accountResult.AccountInfo.PlayFabId
+            }, result =>
+            {
+                if (result.Data.ContainsKey(_healthName))
+                {
+                    Debug.Log($"{_healthName}: {result.Data[_healthName].Value}");
+                    _hp = float.Parse(result.Data[_healthName].Value);
+                }
+            }, OnError);
+            
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId =  _accountResult.AccountInfo.PlayFabId
+            }, result =>
+            {
+                if (result.Data.ContainsKey(_maximumHealthName))
+                {
+                    Debug.Log($"{_maximumHealthName}: {result.Data[_maximumHealthName].Value}");
+                    _maximumHealthValue = float.Parse(result.Data[_maximumHealthName].Value);
+                }
+            }, OnError);
+            
+            Health = _hp;
+            MaximumHealth = _maximumHealthValue;
+        }
+        
+        private void OnError(PlayFabError error)
+        {
+            var errorMessage = error.GenerateErrorReport();
+            Debug.LogError($"Something went wrong: {errorMessage}");
+        }
+
+        private string GetUserData(string playFabId, string keyData)
+        {
+            string str = null;
+            PlayFabClientAPI.GetUserData(new GetUserDataRequest
+            {
+                PlayFabId =  playFabId
+            }, result =>
+            {
+                if (result.Data.ContainsKey(keyData))
+                {
+                    str = result.Data[keyData].Value;
+                }
+                //Debug.Log($"{keyData}: {result.Data[keyData].Value}");
+            }, OnError);
+            return str;
+        }
 
 		#if UNITY_5_4_OR_NEWER
 		void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode loadingMode)
@@ -281,12 +366,14 @@ namespace Photon.Pun.Demo.PunBasics
                 // We own this player: send the others our data
                 stream.SendNext(this.IsFiring);
                 stream.SendNext(this.Health);
+                stream.SendNext(this.ID);
             }
             else
             {
                 // Network player, receive data
                 this.IsFiring = (bool)stream.ReceiveNext();
                 this.Health = (float)stream.ReceiveNext();
+                ID = (float)stream.ReceiveNext();
             }
         }
 
