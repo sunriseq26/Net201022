@@ -15,7 +15,7 @@ public class AccountInfo : AccountManagerBase
     [SerializeField] private GameObject _newCharacterCreatePanel;
     [SerializeField] private Button _createCharacterButton;
     [SerializeField] private TMP_InputField _inputField;
-    [FormerlySerializedAs("_slot")] [SerializeField] private List<SlotCharacterWidget> _slots;
+    [SerializeField] private List<SlotCharacterWidget> _slots;
 
     [SerializeField] private Transform _content;
     [SerializeField] private GameObject _prefabItem;
@@ -85,12 +85,13 @@ public class AccountInfo : AccountManagerBase
 
     private void ShowCharactersInSlot(List<CharacterResult> characters)
     {
+        Debug.LogWarning($"{_slots.Count}");
         if (characters.Count == 0)
         {
             foreach (var slot in _slots)
                 slot.ShowEmptySlot();
         }
-        else if (characters.Count > 0 && characters.Count < _slots.Count)
+        else if (characters.Count > 0 && characters.Count <=_slots.Count)
         {
             PlayFabClientAPI.GetCharacterStatistics(new GetCharacterStatisticsRequest
             {
@@ -100,7 +101,7 @@ public class AccountInfo : AccountManagerBase
                 {
                     var level = result.CharacterStatistics["Level"].ToString();
                     var gold = result.CharacterStatistics["Gold"].ToString();
-                    
+                    Debug.Log($"{characters.First().CharacterId} - {level} - {gold}");
                     _slots.First().ShowInfoCharacterSlot(characters.First().CharacterName, level, gold);
                 }, OnError);
         }
